@@ -51,6 +51,9 @@ const loginUser = async (req, res) => {
     // Now you can use generateToken anywhere in this file
     const token = generateToken(user);
 
+    // Update the user's token in the database
+    await user.update({ token });
+
     res.status(200).json({ message: 'Login successful', token });
   } catch (err) {
     res.status(500).json({ message: 'Login failed', error: err.message });
