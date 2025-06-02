@@ -1,6 +1,8 @@
 const express = require('express');
-const { sequelize } = require('./collection');
+const { sequelize } = require('./model');
 const userRoutes = require('./routes/user');
+
+require('./global/global');// Global variables and functions
 
 const app = express();
 app.use(express.json());

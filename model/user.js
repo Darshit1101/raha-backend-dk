@@ -1,28 +1,37 @@
 const { DataTypes } = require('sequelize');
-const sequelize = require('../config/database');
+const sequelize = require('../config/db');
 
-// Define the User model
 const User = sequelize.define('User', {
+  userId: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
   fullName: {
     type: DataTypes.STRING,
     allowNull: false,
   },
   username: {
     type: DataTypes.STRING,
-    unique: true,
     allowNull: false,
   },
   email: {
     type: DataTypes.STRING,
-    unique: true,
     allowNull: false,
-    validate: {
-      isEmail: true,
-    }
+    unique: { name: "unique_email", msg: "Email must be unique" },
   },
   password: {
     type: DataTypes.STRING,
     allowNull: false,
+  },
+  role: {
+    type: DataTypes.ENUM("user", "admin"),
+    allowNull: false,
+    defaultValue: "user",
+  },
+  token: {
+    type: DataTypes.STRING,
+    defaultValue: null,
   },
 });
 

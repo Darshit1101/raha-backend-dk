@@ -1,7 +1,7 @@
-const sequelize = require('../config/database');
+const sequelize = require('../config/db');
 const User = require('./user');
 
-sequelize.sync({ force: false  }) // Set true to reset tables
+sequelize.sync({ alter: true })
   .then(() => console.log('DB Synced'))
   .catch(err => console.error('DB Sync failed:', err));
 
