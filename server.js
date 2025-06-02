@@ -1,21 +1,34 @@
 const express = require('express');
-const { sequelize } = require('./model');
-const userRoutes = require('./routes/user');
-
-require('./global/global');// Global variables and functions
+const sequelize = require('./config/db'); // Import database connection
+const userRoutes = require('./routes/user'); // Import user routes
+require('./global/global'); // Load global variables or functions
 
 const app = express();
+
+// Parse incoming JSON requests
 app.use(express.json());
 
+// Register API routes
 app.use('/api', userRoutes);
 
-const PORT = 5000;
-app.listen(PORT, async () => {
+const PORT = process.env.PORT || 5000;
+
+// Start the server and connect to the database
+const startServer = async () => {
   try {
+    // Check database connection
     await sequelize.authenticate();
-    console.log('Connected to MySQL');
-    console.log(`listening on ${PORT}...`);
+
+    // Sync database models
+    await sequelize.sync({ alter: true });
+
+    // Start server
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
+    });
   } catch (err) {
-    console.error('Connection failed:', err);
+    console.error('Startup error:', err.message);
   }
-});
+};
+
+startServer();
