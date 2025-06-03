@@ -1,5 +1,4 @@
-const { User } = require('../model');
-const bcrypt = require('bcrypt');
+const passwordHelper = require('../service/passwordService');
 
 const registerUser = async (req, res) => {
   const { fullName, username, email, password } = req.body;
@@ -10,12 +9,11 @@ const registerUser = async (req, res) => {
 
   const existingUser = await User.findOne({ where: { email } });
   if (existingUser) {
-    console.log("Email already exists");
     return res.status(500).json({ message: "Email Already Exists" });
   }
 
   try {
-    const hashedPassword = await bcrypt.hash(password, 10);
+    const hashedPassword = passwordHelper.createHashPwd(password);
 
     const user = await User.create({
       fullName,
@@ -43,15 +41,13 @@ const loginUser = async (req, res) => {
       return res.status(401).json({ message: 'Invalid email or password.' });
     }
 
-    const isPasswordMatch = await bcrypt.compare(password, user.password);
+    const isPasswordMatch = await passwordHelper.comparePwd(password, user.password);
 
     if (!isPasswordMatch) {
       return res.status(401).json({ message: 'Invalid email or password.' });
     }
-    // Now you can use generateToken anywhere in this file
-    const token = generateToken(user);
 
-    // Update the user's token in the database
+    const token = generateToken(user);
     await user.update({ token });
 
     res.status(200).json({ message: 'Login successful', token });
@@ -62,5 +58,5 @@ const loginUser = async (req, res) => {
 
 module.exports = {
   registerUser,
-  loginUser
+  loginUser,
 };
