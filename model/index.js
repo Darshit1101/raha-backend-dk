@@ -1,1 +1,1 @@
-global.User = require('./user');
+global.modalForUser = require('./user');

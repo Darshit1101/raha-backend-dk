@@ -7,7 +7,7 @@ const registerUser = async (req, res) => {
     return res.status(400).json({ message: 'All fields are required.' });
   }
 
-  const existingUser = await User.findOne({ where: { email } });
+  const existingUser = await modalForUser.findOne({ where: { email } });
   if (existingUser) {
     return res.status(500).json({ message: "Email Already Exists" });
   }
@@ -15,7 +15,7 @@ const registerUser = async (req, res) => {
   try {
     const hashedPassword = passwordHelper.createHashPwd(password);
 
-    const user = await User.create({
+    const user = await modalForUser.create({
       fullName,
       username,
       email,
@@ -36,7 +36,7 @@ const loginUser = async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ where: { email } });
+    const user = await modalForUser.findOne({ where: { email } });
     if (!user) {
       return res.status(401).json({ message: 'Invalid email or password.' });
     }
