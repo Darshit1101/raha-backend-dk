@@ -2,8 +2,8 @@
 require("dotenv").config();
 global.env = process.env;
 
-// Sequelize setup
-const { Sequelize } = require("sequelize");
+// Sequelize setup and DataTypes for models
+const { Sequelize, DataTypes } = require("sequelize");
 
 // This creates and stores the MySQL database connection
 global.sequelize = new Sequelize(
@@ -16,6 +16,7 @@ global.sequelize = new Sequelize(
     logging: false,
   }
 );
+global.DataTypes = DataTypes;
 
 // Express setup
 global.express = require("express");

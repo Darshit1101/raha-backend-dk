@@ -1,5 +1,3 @@
-const { DataTypes } = require('sequelize');
-
 const User = sequelize.define('User', {
   userId: {
     type: DataTypes.INTEGER,
