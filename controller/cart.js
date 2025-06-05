@@ -1,4 +1,4 @@
-//add to cart api
+// add to cart api
 const addToCart = async (req, res) => {
   const { userId, productId, quantity } = req.body;
 
@@ -21,7 +21,7 @@ const addToCart = async (req, res) => {
   }
 };
 
-//get cart items for a user
+// get cart items for a user
 const getCart = async (req, res) => {
   const { userId } = req.params;
 
@@ -63,8 +63,42 @@ const deleteCartItem = async (req, res) => {
   }
 };
 
+// Update a cart item by ID
+const updateCartItem = async (req, res) => {
+  const { id } = req.params;
+  const { quantity } = req.body;
+
+  if (!quantity) {
+    return res.status(400).json({ error: "Quantity is required" });
+  }
+
+  try {
+    const cartItem = await modalForCart.findByPk(id);
+
+    if (!cartItem) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Cart item not found" });
+    }
+
+    cartItem.quantity = quantity;
+    await cartItem.save();
+
+    res
+      .status(200)
+      .json({
+        success: true,
+        message: "Cart item updated successfully",
+        data: cartItem,
+      });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 module.exports = {
   addToCart,
   getCart,
   deleteCartItem,
+  updateCartItem,
 };
