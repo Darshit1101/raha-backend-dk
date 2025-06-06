@@ -21,5 +21,8 @@ modalForWishlist.belongsTo(modalForProduct, {
 });
 
 //order model associations
-modalForOrder.hasMany(modalForOrderItem, { foreignKey: 'orderId' });
-modalForOrderItem.belongsTo(modalForOrder, { foreignKey: 'orderId' });
+modalForOrder.hasMany(modalForOrderItem, {
+  foreignKey: "orderId",
+  onDelete: "CASCADE",
+});
+modalForOrderItem.belongsTo(modalForOrder, { foreignKey: "orderId" });
