@@ -3,6 +3,8 @@ global.modalForContact = require("./contact");
 global.modalForProduct = require("./product");
 global.modalForCart = require("./cart");
 global.modalForWishlist = require("./wishlist");
+global.modalForOrder = require("./order");
+global.modalForOrderItem = require("./orderItem");
 
 //cart model associations
 modalForCart.belongsTo(modalForProduct, {
@@ -17,3 +19,7 @@ modalForWishlist.belongsTo(modalForProduct, {
   as: "product",
   onDelete: "CASCADE",
 });
+
+//order model associations
+modalForOrder.hasMany(modalForOrderItem, { foreignKey: 'orderId' });
+modalForOrderItem.belongsTo(modalForOrder, { foreignKey: 'orderId' });
