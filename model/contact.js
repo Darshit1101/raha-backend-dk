@@ -18,7 +18,7 @@ const Contact = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    type: {
+    inquiryType: {
       type: DataTypes.ENUM(
         "Product Inquiry",
         "Order Support",

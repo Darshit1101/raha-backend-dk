@@ -1,13 +1,13 @@
 // add single contact
 const addContact = async (req, res) => {
-  const { name, email, phone, type, message } = req.body;
+  const { name, email, phone, inquiryType, message } = req.body;
 
   try {
     const newInquiry = await modalForContact.create({
       name,
       email,
       phone,
-      type,
+      inquiryType,
       message,
     });
 

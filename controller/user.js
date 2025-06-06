@@ -1,10 +1,10 @@
-const passwordHelper = require('../service/passwordService');
+const passwordHelper = require("../service/passwordService");
 
 const registerUser = async (req, res) => {
   const { fullName, username, email, password } = req.body;
 
   if (!fullName || !username || !email || !password) {
-    return res.status(400).json({ message: 'All fields are required.' });
+    return res.status(400).json({ message: "All fields are required." });
   }
 
   const existingUser = await modalForUser.findOne({ where: { email } });
@@ -22,9 +22,11 @@ const registerUser = async (req, res) => {
       password: hashedPassword,
     });
 
-    res.status(201).json({ message: 'User registered', userId: user.userId });
+    res.status(201).json({ message: "User registered", userId: user.userId });
   } catch (err) {
-    res.status(500).json({ message: 'Registration failed', error: err.message });
+    res
+      .status(500)
+      .json({ message: "Registration failed", error: err.message });
   }
 };
 
@@ -32,27 +34,37 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res.status(400).json({ message: 'Email and password are required.' });
+    return res
+      .status(400)
+      .json({ message: "Email and password are required." });
   }
 
   try {
     const user = await modalForUser.findOne({ where: { email } });
     if (!user) {
-      return res.status(401).json({ message: 'Invalid email or password.' });
+      return res.status(401).json({ message: "Invalid email or password." });
     }
 
-    const isPasswordMatch = await passwordHelper.comparePwd(password, user.password);
+    const isPasswordMatch = await passwordHelper.comparePwd(
+      password,
+      user.password
+    );
 
     if (!isPasswordMatch) {
-      return res.status(401).json({ message: 'Invalid email or password.' });
+      return res.status(401).json({ message: "Invalid email or password." });
     }
 
     const token = generateToken(user);
     await user.update({ token });
 
-    res.status(200).json({ message: 'Login successful', token });
+    // convert user to plain object and remove password
+    const { password: _, ...userData } = user.get({ plain: true });
+
+    res
+      .status(200)
+      .json({ message: "Login successful", token, user: userData });
   } catch (err) {
-    res.status(500).json({ message: 'Login failed', error: err.message });
+    res.status(500).json({ message: "Login failed", error: err.message });
   }
 };
 
