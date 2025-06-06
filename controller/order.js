@@ -145,9 +145,39 @@ const deleteOrder = async (req, res) => {
   }
 };
 
+//update status of order by ID
+const updateOrder = async (req, res) => {
+  const { orderId } = req.params;
+  const { status } = req.body;
+
+  if (!status) {
+    return res
+      .status(400)
+      .json({ success: false, error: "Status is required" });
+  }
+
+  try {
+    const order = await modalForOrder.findByPk(orderId);
+
+    if (!order) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found" });
+    }
+
+    order.status = status;
+    await order.save();
+
+    res.status(200).json({ success: true, data: order });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 module.exports = {
   addOrder,
   getOrderByUserId,
   getAllOrders,
   deleteOrder,
+  updateOrder,
 };
