@@ -5,6 +5,7 @@ global.modalForCart = require("./cart");
 global.modalForWishlist = require("./wishlist");
 global.modalForOrder = require("./order");
 global.modalForOrderItem = require("./orderItem");
+global.modalForImage = require("./image");
 
 //cart model associations
 modalForCart.belongsTo(modalForProduct, {
