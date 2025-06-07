@@ -1,11 +1,18 @@
-async function saveImagePath(filePath) {
-  return await modalForImage.create({ image_path: filePath });
+async function saveImagePath(filePath, productId) {
+  return await modalForImage.create({
+    image_path: filePath,
+    productId: productId,
+  });
 }
 
 async function uploadImage(req, res) {
   try {
-    const saved = await saveImagePath(req.file.filename);
-    res.json({ message: "Image uploaded", id: saved.id });
+    const {productId} = req.body;
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+    const saved = await saveImagePath(req.file.filename, productId);
+    res.json({ message: "Image uploaded", id: saved.imageId });
   } catch (err) {
     res.status(500).json({ error: "Upload failed" });
   }
