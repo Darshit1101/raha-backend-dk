@@ -78,16 +78,24 @@ const deleteProduct = async (req, res) => {
 //get all products
 const getAllProducts = async (req, res) => {
   try {
-    const products = await modalForProduct.findAll({
+      const products = await modalForProduct.findAll({
       include: [
         {
-          model: modalForImage, // Replace with actual image model variable name
+          model: modalForImage,
           attributes: ["image_path"],
         },
       ],
     });
 
-    res.status(200).json({ success: true, data: products });
+    const parsedProducts = products.map((product) => {
+      return {
+        ...product.toJSON(),
+        benefits: JSON.parse(product.benefits || "[]"),
+        howToUse: JSON.parse(product.howToUse || "[]"),
+      };
+    });
+
+    res.status(200).json({ success: true, data: parsedProducts });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -106,7 +114,13 @@ const getProductById = async (req, res) => {
         .json({ success: false, message: "Product not found" });
     }
 
-    res.status(200).json({ success: true, data: product });
+    const parsedProduct = {
+      ...product.toJSON(),
+      benefits: JSON.parse(product.benefits || "[]"),
+      howToUse: JSON.parse(product.howToUse || "[]"),
+    };
+
+    res.status(200).json({ success: true, data: parsedProduct });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
