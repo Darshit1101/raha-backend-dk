@@ -11,7 +11,7 @@ const addProduct = async (req, res) => {
       benefits,
       ingredients,
       howToUse,
-      categoryId
+      categoryId,
     } = req.body;
 
     if (!name || !description || !actualPrice || stockQuantity === undefined) {
@@ -32,7 +32,7 @@ const addProduct = async (req, res) => {
       benefits: benefitsParsed,
       ingredients,
       howToUse: howToUseParsed,
-      categoryId
+      categoryId,
     });
 
     // Save multiple images if uploaded
@@ -82,9 +82,9 @@ const getAllProducts = async (req, res) => {
       include: [
         {
           model: modalForImage, // Replace with actual image model variable name
-          attributes: ['image_path']
-        }
-      ]
+          attributes: ["image_path"],
+        },
+      ],
     });
 
     res.status(200).json({ success: true, data: products });
@@ -125,6 +125,7 @@ const updateProduct = async (req, res) => {
     benefits,
     ingredients,
     howToUse,
+    categoryId,
   } = req.body;
 
   try {
@@ -136,6 +137,10 @@ const updateProduct = async (req, res) => {
         .json({ success: false, message: "Product not found" });
     }
 
+    // Parse JSON string arrays
+    const benefitsParsed = benefits ? JSON.parse(benefits) : null;
+    const howToUseParsed = howToUse ? JSON.parse(howToUse) : null;
+
     const updatedProduct = await product.update({
       name,
       description,
@@ -143,10 +148,24 @@ const updateProduct = async (req, res) => {
       discountedPrice,
       size,
       stockQuantity,
-      benefits,
+      benefits: benefitsParsed,
       ingredients,
-      howToUse,
+      howToUse: howToUseParsed,
+      categoryId,
     });
+
+    // Update images if new ones are uploaded
+    if (req.files && req.files.length > 0) {
+      // Delete old images first
+      await modalForImage.destroy({ where: { productId: id } });
+
+      for (const file of req.files) {
+        await modalForImage.create({
+          image_path: file.originalname,
+          productId: id,
+        });
+      }
+    }
 
     res.status(200).json({
       success: true,
