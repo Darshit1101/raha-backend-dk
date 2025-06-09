@@ -6,6 +6,7 @@ global.modalForWishlist = require("./wishlist");
 global.modalForOrder = require("./order");
 global.modalForOrderItem = require("./orderItem");
 global.modalForImage = require("./image");
+global.modalForCategory = require("./category");
 
 //cart model associations
 modalForCart.belongsTo(modalForProduct, {
@@ -36,3 +37,7 @@ modalForImage.belongsTo(modalForProduct, {
   foreignKey: "productId",
   onDelete: "CASCADE",
 });
+
+// Product belongs to Category
+modalForProduct.belongsTo(modalForCategory, { foreignKey: "categoryId" });
+modalForCategory.hasMany(modalForProduct, { foreignKey: "categoryId" });

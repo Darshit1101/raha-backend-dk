@@ -51,6 +51,14 @@ const product = sequelize.define(
       type: DataTypes.JSON,
       defaultValue: null,
     },
+    categoryId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: "category",
+        key: "categoryId",
+      },
+    },
   },
   {
     tableName: "products",

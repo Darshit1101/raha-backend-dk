@@ -11,6 +11,7 @@ const addProduct = async (req, res) => {
       benefits,
       ingredients,
       howToUse,
+      categoryId
     } = req.body;
 
     if (!name || !description || !actualPrice || stockQuantity === undefined) {
@@ -31,6 +32,7 @@ const addProduct = async (req, res) => {
       benefits: benefitsParsed,
       ingredients,
       howToUse: howToUseParsed,
+      categoryId
     });
 
     // Save multiple images if uploaded

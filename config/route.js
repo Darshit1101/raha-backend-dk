@@ -5,3 +5,4 @@ app.use(require('../routes/cart'));
 app.use(require('../routes/wishlist'));
 app.use(require('../routes/order'));
 app.use(require('../routes/image'));
+app.use(require('../routes/category'));
