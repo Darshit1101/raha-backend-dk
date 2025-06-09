@@ -177,10 +177,39 @@ const updateProduct = async (req, res) => {
   }
 };
 
+//get product by category ID
+const getProductsByCategory = async (req, res) => {
+  const { categoryId } = req.params;
+
+  try {
+    const products = await modalForProduct.findAll({
+      where: { categoryId },
+      include: [
+        {
+          model: modalForImage,
+          attributes: ["image_path"],
+        },
+      ],
+    });
+
+    if (products.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No products found for this category",
+      });
+    }
+
+    res.status(200).json({ success: true, data: products });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 module.exports = {
   addProduct,
   deleteProduct,
   getAllProducts,
   getProductById,
   updateProduct,
+  getProductsByCategory,
 };
