@@ -28,9 +28,11 @@ modalForOrder.hasMany(modalForOrderItem, {
 });
 modalForOrderItem.belongsTo(modalForOrder, { foreignKey: "orderId" });
 
-//image model associations
+// Product model
+modalForProduct.hasMany(modalForImage, { foreignKey: "productId" });
+
+// Image model
 modalForImage.belongsTo(modalForProduct, {
   foreignKey: "productId",
-  as: "product",
   onDelete: "CASCADE",
 });

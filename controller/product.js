@@ -76,7 +76,15 @@ const deleteProduct = async (req, res) => {
 //get all products
 const getAllProducts = async (req, res) => {
   try {
-    const products = await modalForProduct.findAll();
+    const products = await modalForProduct.findAll({
+      include: [
+        {
+          model: modalForImage, // Replace with actual image model variable name
+          attributes: ['image_path']
+        }
+      ]
+    });
+
     res.status(200).json({ success: true, data: products });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
