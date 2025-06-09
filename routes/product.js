@@ -12,5 +12,5 @@ app
 
 app.route(env.API_PREFIX + "/deleteProduct/:id").delete(Ctrl.deleteProduct);
 app.route(env.API_PREFIX + "/getAllProducts").get(Ctrl.getAllProducts);
-app.route(env.API_PREFIX + "/getProduct/:id").get(Ctrl.getProductById);
+app.route(env.API_PREFIX + "/getProduct/:productId").get(Ctrl.getProductById);
 app.route(env.API_PREFIX + "/getProductsByCategory/:categoryId").get(Ctrl.getProductsByCategory);

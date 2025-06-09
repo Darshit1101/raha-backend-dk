@@ -103,10 +103,17 @@ const getAllProducts = async (req, res) => {
 
 //get product by ID
 const getProductById = async (req, res) => {
-  const { id } = req.params;
+  const { productId } = req.params;
 
   try {
-    const product = await modalForProduct.findByPk(id);
+    const product = await modalForProduct.findByPk(productId, {
+      include: [
+        {
+          model: modalForImage,
+          attributes: ["image_path"],
+        },
+      ],
+    });
 
     if (!product) {
       return res
