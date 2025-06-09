@@ -17,6 +17,10 @@ const addProduct = async (req, res) => {
       return res.status(400).json({ error: "Missing required fields" });
     }
 
+    // Parse JSON string arrays
+    const benefitsParsed = benefits ? JSON.parse(benefits) : null;
+    const howToUseParsed = howToUse ? JSON.parse(howToUse) : null;
+
     const newProduct = await modalForProduct.create({
       name,
       description,
@@ -24,14 +28,12 @@ const addProduct = async (req, res) => {
       discountedPrice,
       size,
       stockQuantity,
-      benefits,
+      benefits: benefitsParsed,
       ingredients,
-      howToUse,
+      howToUse: howToUseParsed,
     });
 
-    res
-      .status(201)
-      .json({ message: "Product added successfully", data: newProduct });
+    res.status(201).json({ message: "Product added successfully", data: newProduct });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

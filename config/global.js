@@ -21,7 +21,9 @@ global.DataTypes = DataTypes;
 // Express setup
 global.express = require("express");
 global.app = express();
-app.use(express.json());
+// express.json() works for Content-Type: application/json
+app.use(express.json()); // for JSON bodies
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static("uploads"));
 
 // CORS setup
@@ -33,7 +35,16 @@ global.jwt = require("jsonwebtoken");
 
 global.generateToken = (user) => {
   return jwt.sign(
-    { id: user.userId || null, email: user.email, role: user.role },
+    { id: user.userId  || null, email: user.email, role: user.role },
     process.env.JWT_SECRET_KEY
   );
 };
+
+
+
+
+
+//  `express.json()`        JSON requests                     
+//  `express.urlencoded()`  HTML form (URL-encoded)           
+//  `multer()`              Form-data (`multipart/form-data`) 
+//  `upload.none()`         Form-data without files           

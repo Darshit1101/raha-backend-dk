@@ -1,7 +1,11 @@
 const Ctrl = require('../controller/product');
 const app = module.exports = express.Router();
+const multer = require("multer");
+const upload = multer(); // for parsing form-data without files
 
-app.route(env.API_PREFIX + '/addProduct').post(Ctrl.addProduct);
+// app.route(env.API_PREFIX + '/addProduct').post(Ctrl.addProduct);
+app.route(env.API_PREFIX + '/addProduct').post(upload.none(), Ctrl.addProduct);
+
 app.route(env.API_PREFIX + '/deleteProduct/:id').delete(Ctrl.deleteProduct);
 app.route(env.API_PREFIX + '/getAllProducts').get(Ctrl.getAllProducts);
 app.route(env.API_PREFIX + '/getProduct/:id').get(Ctrl.getProductById);
