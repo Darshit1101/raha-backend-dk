@@ -33,7 +33,19 @@ const addProduct = async (req, res) => {
       howToUse: howToUseParsed,
     });
 
-    res.status(201).json({ message: "Product added successfully", data: newProduct });
+    // Save multiple images if uploaded
+    if (req.files && req.files.length > 0) {
+      for (const file of req.files) {
+        await modalForImage.create({
+          image_path: file.originalname, // this now gives the actual file name
+          productId: newProduct.productId,
+        });
+      }
+    }
+
+    res
+      .status(201)
+      .json({ message: "Product added successfully", data: newProduct });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
