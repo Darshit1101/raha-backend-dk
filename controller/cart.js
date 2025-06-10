@@ -35,7 +35,33 @@ const getCart = async (req, res) => {
       return res.status(404).json({ message: "No items found in cart" });
     }
 
-    res.status(200).json({ success: true, data: cartItems });
+    // Clean up product fields
+    const cleanedItems = cartItems.map(item => {
+      const product = { ...item.product.dataValues };
+
+      if (product.benefits) {
+        try {
+          product.benefits = JSON.parse(product.benefits);
+        } catch {
+          product.benefits = [];
+        }
+      }
+
+      if (product.howToUse) {
+        try {
+          product.howToUse = JSON.parse(product.howToUse);
+        } catch {
+          product.howToUse = [];
+        }
+      }
+
+      return {
+        ...item.dataValues,
+        product,
+      };
+    });
+
+    res.status(200).json({ success: true, data: cleanedItems });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
