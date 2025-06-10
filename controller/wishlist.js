@@ -12,12 +12,10 @@ const addToWishlist = async (req, res) => {
       productId,
     });
 
-    res
-      .status(201)
-      .json({
-        message: "Item added to wishlist successfully",
-        data: wishlistItem,
-      });
+    res.status(201).json({
+      message: "Item added to wishlist successfully",
+      data: wishlistItem,
+    });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -30,14 +28,51 @@ const getWishlist = async (req, res) => {
   try {
     const wishlistItems = await modalForWishlist.findAll({
       where: { userId },
-      include: [{ model: modalForProduct, as: "product" }],
+      include: [
+        {
+          model: modalForProduct,
+          as: "product",
+          include: [
+            {
+              model: modalForImage,
+              attributes: ["image_path"],
+            },
+          ],
+        },
+      ],
     });
 
     if (wishlistItems.length === 0) {
       return res.status(404).json({ message: "No items found in wishlist" });
     }
 
-    res.status(200).json({ success: true, data: wishlistItems });
+    // Clean up product fields
+    const cleanedItems = wishlistItems.map((item) => {
+      const product = { ...item.product.dataValues };
+
+      if (product.benefits) {
+        try {
+          product.benefits = JSON.parse(product.benefits);
+        } catch {
+          product.benefits = [];
+        }
+      }
+
+      if (product.howToUse) {
+        try {
+          product.howToUse = JSON.parse(product.howToUse);
+        } catch {
+          product.howToUse = [];
+        }
+      }
+
+      return {
+        ...item.dataValues,
+        product,
+      };
+    });
+
+    res.status(200).json({ success: true, data: cleanedItems });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
