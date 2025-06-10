@@ -74,7 +74,12 @@ const addOrder = async (req, res) => {
       )
     );
 
+    // 3. Delete cart items after order creation
+    await modalForCart.destroy({ where: { userId }, transaction: t });
+
+    // 4. Commit transaction
     await t.commit();
+
     res.status(201).json({ success: true, order: newOrder, orderItems });
   } catch (error) {
     await t.rollback();
