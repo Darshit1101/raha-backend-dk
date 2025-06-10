@@ -94,7 +94,17 @@ const getOrderByUserId = async (req, res) => {
   try {
     const orders = await modalForOrder.findAll({
       where: { userId },
-      include: [{ model: modalForOrderItem }],
+      include: [
+        {
+          model: modalForOrderItem,
+          include: [
+            {
+              model: modalForProduct,
+              include: [modalForImage],
+            },
+          ],
+        },
+      ],
     });
 
     if (orders.length === 0) {
@@ -108,6 +118,7 @@ const getOrderByUserId = async (req, res) => {
     res.status(500).json({ success: false, error: error.message });
   }
 };
+
 
 //get all orders
 const getAllOrders = async (req, res) => {

@@ -41,3 +41,8 @@ modalForImage.belongsTo(modalForProduct, {
 // Product belongs to Category
 modalForProduct.belongsTo(modalForCategory, { foreignKey: "categoryId" });
 modalForCategory.hasMany(modalForProduct, { foreignKey: "categoryId" });
+
+// OrderItem belongs to Product
+modalForOrderItem.belongsTo(modalForProduct, {
+  foreignKey: "productId",
+});
