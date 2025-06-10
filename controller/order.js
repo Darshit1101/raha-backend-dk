@@ -133,7 +133,7 @@ const getOrderByUserId = async (req, res) => {
         name: item.product.name,
         size: item.product.size,
         discountedPrice: item.product.discountedPrice,
-        images: item.product.images.map((img) => img.image_path), // Only return paths
+        image: item.product.images.map((img) => img.image_path), // Only return paths
       })),
     }));
 
