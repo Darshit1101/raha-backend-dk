@@ -6,3 +6,4 @@ app.route(env.API_PREFIX + '/getOrderByUserId/:userId').get(Ctrl.getOrderByUserI
 app.route(env.API_PREFIX + '/getAllOrders').get(Ctrl.getAllOrders);
 app.route(env.API_PREFIX + '/deleteOrder/:id').delete(Ctrl.deleteOrder);
 app.route(env.API_PREFIX + '/updateOrder/:orderId').put(Ctrl.updateOrder);
+app.route(env.API_PREFIX + '/getOrderById/:orderId').get(Ctrl.getOrderById);

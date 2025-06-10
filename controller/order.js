@@ -179,10 +179,32 @@ const updateOrder = async (req, res) => {
   }
 };
 
+//get order by ID
+const getOrderById = async (req, res) => {
+  const { orderId } = req.params;
+
+  try {
+    const order = await modalForOrder.findByPk(orderId, {
+      include: [{ model: modalForOrderItem }],
+    });
+
+    if (!order) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found" });
+    }
+
+    res.status(200).json({ success: true, data: order });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+};
+
 module.exports = {
   addOrder,
   getOrderByUserId,
   getAllOrders,
   deleteOrder,
   updateOrder,
+  getOrderById,
 };
