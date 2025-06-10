@@ -94,7 +94,7 @@ const getOrderByUserId = async (req, res) => {
   try {
     const orders = await modalForOrder.findAll({
       where: { userId },
-      attributes: ["orderId", "userId", "status", "totalPrice", "paymentStatus"],
+      attributes: ["orderId", "userId", "status", "totalPrice", "paymentStatus", "address","firstName", "phone"],
       include: [
         {
           model: modalForOrderItem,
@@ -126,6 +126,11 @@ const getOrderByUserId = async (req, res) => {
       status: order.status,
       totalPrice: order.totalPrice,
       paymentStatus: order.paymentStatus,
+      shippingAddress: {
+        name: order.firstName,
+        address: order.address,
+        phone: order.phone,
+      },
       items: order.orderitems.map((item) => ({
         orderItemId: item.orderItemId,
         totalAmount: item.totalAmount,
