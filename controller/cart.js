@@ -28,7 +28,18 @@ const getCart = async (req, res) => {
   try {
     const cartItems = await modalForCart.findAll({
       where: { userId },
-      include: [{ model: modalForProduct, as: "product" }],
+      include: [
+        {
+          model: modalForProduct,
+          as: "product",
+          include: [
+            {
+              model: modalForImage,
+              attributes: ["image_path"],
+            },
+          ],
+        },
+      ],
     });
 
     if (cartItems.length === 0) {
@@ -36,7 +47,7 @@ const getCart = async (req, res) => {
     }
 
     // Clean up product fields
-    const cleanedItems = cartItems.map(item => {
+    const cleanedItems = cartItems.map((item) => {
       const product = { ...item.product.dataValues };
 
       if (product.benefits) {
@@ -110,13 +121,11 @@ const updateCartItem = async (req, res) => {
     cartItem.quantity = quantity;
     await cartItem.save();
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "Cart item updated successfully",
-        data: cartItem,
-      });
+    res.status(200).json({
+      success: true,
+      message: "Cart item updated successfully",
+      data: cartItem,
+    });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
