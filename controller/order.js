@@ -94,13 +94,21 @@ const getOrderByUserId = async (req, res) => {
   try {
     const orders = await modalForOrder.findAll({
       where: { userId },
+      attributes: ["orderId", "userId", "status", "totalPrice", "paymentStatus"],
       include: [
         {
           model: modalForOrderItem,
+          attributes: ["orderItemId", "totalAmount"],
           include: [
             {
               model: modalForProduct,
-              include: [modalForImage],
+              attributes: ["productId", "name", "size", "discountedPrice"],
+              include: [
+                {
+                  model: modalForImage,
+                  attributes: ["imageId", "image_path"],
+                },
+              ],
             },
           ],
         },
@@ -108,12 +116,28 @@ const getOrderByUserId = async (req, res) => {
     });
 
     if (orders.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "No orders found" });
+      return res.status(404).json({ success: false, message: "No orders found" });
     }
 
-    res.status(200).json({ success: true, data: orders });
+    // Reshape the data
+    const simpleOrders = orders.map((order) => ({
+      orderId: order.orderId,
+      userId: order.userId,
+      status: order.status,
+      totalPrice: order.totalPrice,
+      paymentStatus: order.paymentStatus,
+      items: order.orderitems.map((item) => ({
+        orderItemId: item.orderItemId,
+        totalAmount: item.totalAmount,
+        productId: item.product.productId,
+        name: item.product.name,
+        size: item.product.size,
+        discountedPrice: item.product.discountedPrice,
+        images: item.product.images.map((img) => img.image_path), // Only return paths
+      })),
+    }));
+
+    res.status(200).json({ success: true, data: simpleOrders });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
