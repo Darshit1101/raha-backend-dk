@@ -160,7 +160,7 @@ const getOrderByUserId = async (req, res) => {
         subtotal, // Moved outside
         items,
         shipping: 20.0,
-        tax: 20.0,
+        tax: 20.0,      
       };
     });
 
