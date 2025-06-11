@@ -30,6 +30,9 @@ app.use(express.static("uploads"));
 const cors = require("cors");
 app.use(cors());
 
+//Other Files
+global.msgObj = require('../message.json');
+
 // JWT setup
 global.jwt = require("jsonwebtoken");
 
