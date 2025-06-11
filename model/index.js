@@ -7,6 +7,7 @@ global.modalForOrder = require("./order");
 global.modalForOrderItem = require("./orderItem");
 global.modalForImage = require("./image");
 global.modalForCategory = require("./category");
+global.modalForCustomerReview = require("./CustomerReview");
 
 //cart model associations
 modalForCart.belongsTo(modalForProduct, {
@@ -23,26 +24,16 @@ modalForWishlist.belongsTo(modalForProduct, {
 });
 
 //order model associations
-modalForOrder.hasMany(modalForOrderItem, {
-  foreignKey: "orderId",
-  onDelete: "CASCADE",
-});
+modalForOrder.hasMany(modalForOrderItem, {foreignKey: "orderId",onDelete: "CASCADE",});
 modalForOrderItem.belongsTo(modalForOrder, { foreignKey: "orderId" });
 
-// Product model
+// Image belongs to Product
 modalForProduct.hasMany(modalForImage, { foreignKey: "productId" });
-
-// Image model
-modalForImage.belongsTo(modalForProduct, {
-  foreignKey: "productId",
-  onDelete: "CASCADE",
-});
+modalForImage.belongsTo(modalForProduct, {foreignKey: "productId",onDelete: "CASCADE"});
 
 // Product belongs to Category
 modalForProduct.belongsTo(modalForCategory, { foreignKey: "categoryId" });
 modalForCategory.hasMany(modalForProduct, { foreignKey: "categoryId" });
 
 // OrderItem belongs to Product
-modalForOrderItem.belongsTo(modalForProduct, {
-  foreignKey: "productId",
-});
+modalForOrderItem.belongsTo(modalForProduct, {foreignKey: "productId"});
