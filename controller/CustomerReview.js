@@ -47,7 +47,33 @@ const getReview = async (req, res) => {
   }
 };
 
+//delete review by ID
+const deleteReview = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const review = await modalForCustomerReview.findByPk(id);
+
+    if (!review) {
+      return res
+        .status(404)
+        .json({ success: false, message: "Review not found" });
+    }
+
+    await review.destroy();
+    return res
+      .status(200)
+      .json({ success: true, message: "Review deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting review:", error);
+    return res
+      .status(500)
+      .json({ success: false, error: "Internal server error" });
+  }
+};
+
 module.exports = {
   addReview,
   getReview,
+  deleteReview,
 };
