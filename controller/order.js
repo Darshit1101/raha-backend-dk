@@ -94,7 +94,16 @@ const getOrderByUserId = async (req, res) => {
   try {
     const orders = await modalForOrder.findAll({
       where: { userId },
-      attributes: ["orderId", "userId", "status", "totalPrice", "paymentStatus", "address","firstName", "phone"],
+      attributes: [
+        "orderId",
+        "userId",
+        "status",
+        "totalPrice",
+        "paymentStatus",
+        "address",
+        "firstName",
+        "phone",
+      ],
       include: [
         {
           model: modalForOrderItem,
@@ -116,38 +125,50 @@ const getOrderByUserId = async (req, res) => {
     });
 
     if (orders.length === 0) {
-      return res.status(404).json({ success: false, message: "No orders found" });
+      return res
+        .status(404)
+        .json({ success: false, message: "No orders found" });
     }
 
     // Reshape the data
-    const simpleOrders = orders.map((order) => ({
-      orderId: order.orderId,
-      userId: order.userId,
-      status: order.status,
-      totalPrice: order.totalPrice,
-      paymentStatus: order.paymentStatus,
-      shippingAddress: {
-        name: order.firstName,
-        address: order.address,
-        phone: order.phone,
-      },
-      items: order.orderitems.map((item) => ({
+    const simpleOrders = orders.map((order) => {
+      const items = order.orderitems.map((item) => ({
         orderItemId: item.orderItemId,
-        totalAmount: item.totalAmount,
         productId: item.product.productId,
         name: item.product.name,
         size: item.product.size,
         discountedPrice: item.product.discountedPrice,
-        image: item.product.images.map((img) => img.image_path), // Only return paths
-      })),
-    }));
+        image: item.product.images.map((img) => img.image_path),
+      }));
+
+      const subtotal = order.orderitems.reduce(
+        (sum, item) => sum + item.totalAmount,
+        0
+      );
+
+      return {
+        orderId: order.orderId,
+        userId: order.userId,
+        status: order.status,
+        totalPrice: order.totalPrice,
+        paymentStatus: order.paymentStatus,
+        shippingAddress: {
+          name: order.firstName,
+          address: order.address,
+          phone: order.phone,
+        },
+        subtotal, // Moved outside
+        items,
+        shipping: 20.0,
+        tax: 20.0,
+      };
+    });
 
     res.status(200).json({ success: true, data: simpleOrders });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
 };
-
 
 //get all orders
 const getAllOrders = async (req, res) => {
