@@ -24,16 +24,22 @@ modalForWishlist.belongsTo(modalForProduct, {
 });
 
 //order model associations
-modalForOrder.hasMany(modalForOrderItem, {foreignKey: "orderId",onDelete: "CASCADE",});
+modalForOrder.hasMany(modalForOrderItem, {
+  foreignKey: "orderId",
+  onDelete: "CASCADE",
+});
 modalForOrderItem.belongsTo(modalForOrder, { foreignKey: "orderId" });
 
 // Image belongs to Product
 modalForProduct.hasMany(modalForImage, { foreignKey: "productId" });
-modalForImage.belongsTo(modalForProduct, {foreignKey: "productId",onDelete: "CASCADE"});
+modalForImage.belongsTo(modalForProduct, {
+  foreignKey: "productId",
+  onDelete: "CASCADE",
+});
 
 // Product belongs to Category
 modalForProduct.belongsTo(modalForCategory, { foreignKey: "categoryId" });
 modalForCategory.hasMany(modalForProduct, { foreignKey: "categoryId" });
 
 // OrderItem belongs to Product
-modalForOrderItem.belongsTo(modalForProduct, {foreignKey: "productId"});
+modalForOrderItem.belongsTo(modalForProduct, { foreignKey: "productId" });
