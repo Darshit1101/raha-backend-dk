@@ -1,6 +1,6 @@
 require('./config/global'); // Load all globals (sequelize, app, env, etc.)
-require('./model/index');  // Load all models
-require('./config/route');// Load routes
+require('./model/index'); // Load all models
+require('./config/route'); // Load routes
 
 const PORT = process.env.PORT || 5000;
 
