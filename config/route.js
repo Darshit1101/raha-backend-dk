@@ -7,3 +7,4 @@ app.use(require('../routes/order'));
 app.use(require('../routes/image'));
 app.use(require('../routes/category'));
 app.use(require('../routes/CustomerReview'));
+app.use(require('../routes/instapost'));

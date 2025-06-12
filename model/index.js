@@ -8,6 +8,7 @@ global.modalForOrderItem = require("./orderItem");
 global.modalForImage = require("./image");
 global.modalForCategory = require("./category");
 global.modalForCustomerReview = require("./CustomerReview");
+global.modalForInstaPost = require("./instapost");
 
 //cart model associations
 modalForCart.belongsTo(modalForProduct, {
