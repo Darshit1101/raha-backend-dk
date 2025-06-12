@@ -24,6 +24,7 @@ exports.decryptPwd = function (cipherText) {
     }
 };
 
+//plainText is the password to be encrypted (change the password time use)
 exports.encryptPwd = function (plainText) {
     // return simpleCrypto.encrypt(plainText);
     const encryptPassword = CryptoJS.AES.encrypt(plainText, _secretKey).toString();
