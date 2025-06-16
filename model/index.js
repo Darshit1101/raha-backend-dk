@@ -11,32 +11,18 @@ global.modalForCustomerReview = require("./CustomerReview");
 global.modalForInstaPost = require("./instapost");
 
 //cart model associations
-modalForCart.belongsTo(modalForProduct, {
-  foreignKey: "productId", //modalForCart
-  as: "product",
-  onDelete: "CASCADE",
-});
+modalForCart.belongsTo(modalForProduct, { foreignKey: "productId", as: "product", onDelete: "CASCADE", });
 
 //wishlist model associations
-modalForWishlist.belongsTo(modalForProduct, {
-  foreignKey: "productId", //modalForWishlist
-  as: "product",
-  onDelete: "CASCADE",
-});
+modalForWishlist.belongsTo(modalForProduct, { foreignKey: "productId", as: "product", onDelete: "CASCADE", });
 
 //order model associations
-modalForOrder.hasMany(modalForOrderItem, {
-  foreignKey: "orderId",
-  onDelete: "CASCADE",
-});
+modalForOrder.hasMany(modalForOrderItem, { foreignKey: "orderId", onDelete: "CASCADE", });
 modalForOrderItem.belongsTo(modalForOrder, { foreignKey: "orderId" });
 
 // Image belongs to Product
 modalForProduct.hasMany(modalForImage, { foreignKey: "productId" });
-modalForImage.belongsTo(modalForProduct, {
-  foreignKey: "productId",
-  onDelete: "CASCADE",
-});
+modalForImage.belongsTo(modalForProduct, { foreignKey: "productId", onDelete: "CASCADE", });
 
 // Product belongs to Category
 modalForProduct.belongsTo(modalForCategory, { foreignKey: "categoryId" });
