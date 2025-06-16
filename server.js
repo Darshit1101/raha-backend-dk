@@ -1,6 +1,7 @@
 require('./config/global'); // Load all globals (sequelize, app, env, etc.)
 require('./model/index'); // Load all models
 require('./config/route'); // Load routes
+require('./config/testing'); // Load testing
 
 const PORT = process.env.PORT || 5000;
 
@@ -11,7 +12,7 @@ const startServer = async () => {
     await sequelize.sync({ alter: true }); // Sync models
 
     app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
+      console.log(`listening on ${PORT}...`);
     });
   } catch (err) {
     console.error('Startup error:', err.message);
