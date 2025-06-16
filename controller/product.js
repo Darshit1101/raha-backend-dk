@@ -101,7 +101,8 @@ const getAllProducts = async (req, res) => {
     return res.status(200).json(responses.success("Products retrieved successfully", parsedProducts));
 
   } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
+    // res.status(500).json({ success: false, error: error.message });
+    return res.status(500).json(responses.serverError("Failed to retrieve products", error));
   }
 };
 
