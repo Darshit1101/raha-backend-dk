@@ -1,4 +1,4 @@
-const response = require('../service/response');
+const responses = require('../service/response');
 
 // add product
 const addProduct = async (req, res) => {
@@ -97,8 +97,9 @@ const getAllProducts = async (req, res) => {
       };
     });
 
-    res.status(200).json({ success: true, data: parsedProducts });
-    // response.success(res, parsedProducts, "Products retrieved successfully");
+    // res.status(200).json({ success: true, data: parsedProducts });
+    return res.status(200).json(responses.success("Products retrieved successfully", parsedProducts));
+
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

@@ -1,20 +1,54 @@
-function success(res, data, message = 'Success', statusCode = 200) {
-  return res.status(statusCode).json({
-    success: true,
-    message,
-    data
-  });
-}
+const response = {
+  success(message, data = {}) {
+    return {
+      status: true,
+      statusCode: 200,
+      message,
+      data,
+      err: {},
+    };
+  },
 
-function error(res, message = 'Something went wrong', statusCode = 500, errors = null) {
-  return res.status(statusCode).json({
-    success: false,
-    message,
-    errors
-  });
-}
+  badRequest(message) {
+    return {
+      status: false,
+      statusCode: 400,
+      message,
+      data: {},
+      err: {},
+    };
+  },
 
-module.exports = {
-  success,
-  error
+  unauthorized(message) {
+    return {
+      status: false,
+      statusCode: 401,
+      message,
+      data: {},
+      err: {},
+    };
+  },
+
+  serverError(message, err = {}) {
+    return {
+      status: false,
+      statusCode: 500,
+      message,
+      data: {},
+      err,
+    };
+  },
+
+  invalidToken(message, err = {}) {
+    return {
+      status: false,
+      statusCode: 498,
+      message,
+      data: {},
+      err,
+    };
+  },
 };
+
+// export default response;
+module.exports = response;
