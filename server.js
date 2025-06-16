@@ -1,5 +1,5 @@
 require('./config/global'); // Load all globals (sequelize, app, env, etc.)
-require('./model/index'); // Load all models
+require('./model/index'); // Load models
 require('./config/route'); // Load routes
 require('./config/testing'); // Load testing
 
