@@ -38,7 +38,7 @@ global.jwt = require("jsonwebtoken");
 
 global.generateToken = (user) => {
   return jwt.sign(
-    { id: user.userId  || null, email: user.email, role: user.role },
+    { id: user.userId || null, email: user.email, role: user.role },
     process.env.JWT_SECRET_KEY
   );
 };
@@ -47,7 +47,8 @@ global.generateToken = (user) => {
 
 
 
-//  `express.json()`        JSON requests                     
-//  `express.urlencoded()`  HTML form (URL-encoded)           
-//  `multer()`              Form-data (`multipart/form-data`) 
-//  `upload.none()`         Form-data without files           
+// `express.json()`   (JSON requests)
+// `express.urlencoded()`  (HTML form (URL-encoded))
+// `multer()` (Form-data   (`multipart/form-data`)) 
+// `upload.none()`  (Form-data without files)           
+// commonJS ==> module.exports
