@@ -3,10 +3,10 @@
 // `multer()` (Form-data   (`multipart/form-data`)) 
 // `upload.none()`  (Form-data without files)     
 
-// commonJS ==> 
+// commonJS ==> syncronous module 
 // const fs = require('fs');
 // module.exports = myFunction;
 
-// ES Modules ==>
+// ES Modules ==> Asynchronous module
 // import fs from 'fs';
 // export default myFunction;
