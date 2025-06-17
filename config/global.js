@@ -42,13 +42,3 @@ global.generateToken = (user) => {
     process.env.JWT_SECRET_KEY
   );
 };
-
-
-
-
-
-// `express.json()`   (JSON requests)
-// `express.urlencoded()`  (HTML form (URL-encoded))
-// `multer()` (Form-data   (`multipart/form-data`)) 
-// `upload.none()`  (Form-data without files)           
-// commonJS ==> module.exports
