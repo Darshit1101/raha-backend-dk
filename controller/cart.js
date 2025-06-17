@@ -13,9 +13,7 @@ const addToCart = async (req, res) => {
       quantity,
     });
 
-    res
-      .status(201)
-      .json({ message: "Item added to cart successfully", data: cartItem });
+    res.status(201).json({ message: "Item added to cart successfully", data: cartItem });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -86,15 +84,11 @@ const deleteCartItem = async (req, res) => {
     const cartItem = await modalForCart.findByPk(id);
 
     if (!cartItem) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Cart item not found" });
+      return res.status(404).json({ success: false, message: "Cart item not found" });
     }
 
     await cartItem.destroy();
-    res
-      .status(200)
-      .json({ success: true, message: "Cart item deleted successfully" });
+    res.status(200).json({ success: true, message: "Cart item deleted successfully" });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -113,19 +107,13 @@ const updateCartItem = async (req, res) => {
     const cartItem = await modalForCart.findByPk(id);
 
     if (!cartItem) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Cart item not found" });
+      return res.status(404).json({ success: false, message: "Cart item not found" });
     }
 
     cartItem.quantity = quantity;
     await cartItem.save();
 
-    res.status(200).json({
-      success: true,
-      message: "Cart item updated successfully",
-      data: cartItem,
-    });
+    res.status(200).json({success: true,message: "Cart item updated successfully",data: cartItem,});
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
