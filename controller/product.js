@@ -47,9 +47,7 @@ const addProduct = async (req, res) => {
       }
     }
 
-    res
-      .status(201)
-      .json({ message: "Product added successfully", data: newProduct });
+    res.status(201).json({ message: "Product added successfully", data: newProduct });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -63,15 +61,11 @@ const deleteProduct = async (req, res) => {
     const product = await modalForProduct.findByPk(id);
 
     if (!product) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Product not found" });
+      return res.status(404).json({ success: false, message: "Product not found" });
     }
 
     await product.destroy();
-    res
-      .status(200)
-      .json({ success: true, message: "Product deleted successfully" });
+    res.status(200).json({ success: true, message: "Product deleted successfully" });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -121,9 +115,7 @@ const getProductById = async (req, res) => {
     });
 
     if (!product) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Product not found" });
+      return res.status(404).json({ success: false, message: "Product not found" });
     }
 
     const parsedProduct = {
@@ -219,10 +211,7 @@ const getProductsByCategory = async (req, res) => {
     });
 
     if (products.length === 0) {
-      return res.status(404).json({
-        success: false,
-        message: "No products found for this category",
-      });
+      return res.status(404).json({success: false,message: "No products found for this category",});
     }
 
     res.status(200).json({ success: true, data: products });
