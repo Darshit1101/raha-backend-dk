@@ -125,9 +125,7 @@ const getOrderByUserId = async (req, res) => {
     });
 
     if (orders.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "No orders found" });
+      return res.status(404).json({ success: false, message: "No orders found" });
     }
 
     // Reshape the data
@@ -178,9 +176,7 @@ const getAllOrders = async (req, res) => {
     });
 
     if (orders.length === 0) {
-      return res
-        .status(404)
-        .json({ success: false, message: "No orders found" });
+      return res.status(404).json({ success: false, message: "No orders found" });
     }
 
     res.status(200).json({ success: true, data: orders });
@@ -197,15 +193,11 @@ const deleteOrder = async (req, res) => {
     const order = await modalForOrder.findByPk(id);
 
     if (!order) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Order not found" });
+      return res.status(404).json({ success: false, message: "Order not found" });
     }
 
     await order.destroy();
-    res
-      .status(200)
-      .json({ success: true, message: "Order deleted successfully" });
+    res.status(200).json({ success: true, message: "Order deleted successfully" });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -217,18 +209,14 @@ const updateOrder = async (req, res) => {
   const { status } = req.body;
 
   if (!status) {
-    return res
-      .status(400)
-      .json({ success: false, error: "Status is required" });
+    return res.status(400).json({ success: false, error: "Status is required" });
   }
 
   try {
     const order = await modalForOrder.findByPk(orderId);
 
     if (!order) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Order not found" });
+      return res.status(404).json({ success: false, message: "Order not found" });
     }
 
     order.status = status;
@@ -250,9 +238,7 @@ const getOrderById = async (req, res) => {
     });
 
     if (!order) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Order not found" });
+      return res.status(404).json({ success: false, message: "Order not found" });
     }
 
     res.status(200).json({ success: true, data: order });
