@@ -24,9 +24,7 @@ const registerUser = async (req, res) => {
 
     res.status(201).json({ message: "User registered", userId: user.userId });
   } catch (err) {
-    res
-      .status(500)
-      .json({ message: "Registration failed", error: err.message });
+    res.status(500).json({ message: "Registration failed", error: err.message });
   }
 };
 
@@ -34,9 +32,7 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
   if (!email || !password) {
-    return res
-      .status(400)
-      .json({ message: "Email and password are required." });
+    return res.status(400).json({ message: "Email and password are required." });
   }
 
   try {
@@ -60,9 +56,7 @@ const loginUser = async (req, res) => {
     // convert user to plain object and remove password
     const { password: _, ...userData } = user.get({ plain: true });
 
-    res
-      .status(200)
-      .json({ message: "Login successful", token, user: userData });
+    res.status(200).json({ message: "Login successful", token, user: userData });
   } catch (err) {
     res.status(500).json({ message: "Login failed", error: err.message });
   }
