@@ -12,10 +12,7 @@ const addToWishlist = async (req, res) => {
       productId,
     });
 
-    res.status(201).json({
-      message: "Item added to wishlist successfully",
-      data: wishlistItem,
-    });
+    res.status(201).json({ message: "Item added to wishlist successfully", data: wishlistItem });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -86,15 +83,11 @@ const deleteWishlistItem = async (req, res) => {
     const wishlistItem = await modalForWishlist.findByPk(id);
 
     if (!wishlistItem) {
-      return res
-        .status(404)
-        .json({ success: false, message: "Wishlist item not found" });
+      return res.status(404).json({ success: false, message: "Wishlist item not found" });
     }
 
     await wishlistItem.destroy();
-    res
-      .status(200)
-      .json({ success: true, message: "Wishlist item deleted successfully" });
+    res.status(200).json({ success: true, message: "Wishlist item deleted successfully" });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
