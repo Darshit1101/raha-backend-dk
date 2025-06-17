@@ -6,6 +6,7 @@
 // commonJS ==> syncronous module 
 // const fs = require('fs');
 // module.exports = myFunction;
+// we have to set "type": "commonjs" in package.json to use commonJS (optional, default is commonJS)
 // Top level await is not allowed.
 // Only one value can be exported in commonJS.
 
